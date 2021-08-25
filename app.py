@@ -1,11 +1,7 @@
 from flask import Flask, request, jsonify
-import json
-from flask.wrappers import Response
 import pymysql
 from pymysql import cursors
-from werkzeug.exceptions import MethodNotAllowed
 from flask_cors import CORS
-from decouple import config as config_decouple
 
 app = Flask(__name__)
 CORS(app)
@@ -25,10 +21,6 @@ def db_connection():
         print(e)
     return conn
 
-def create_app(enviroment):
-    app = Flask(__name__)
-    app.config.from_object(enviroment)
-    return app
 
 @app.route('/')
 def home():
@@ -75,12 +67,6 @@ def categories():
         if categories is not None:
             return jsonify({"categories ": categories})
 
-
-enviroment = config['development']
-if config_decouple('PRODUCTION', default=False):
-    enviroment = config['production']
-
-app = create_app(enviroment)
 
 if __name__ == "__main__":
     app.run()
