@@ -83,4 +83,4 @@ if config_decouple('PRODUCTION', default=False):
 app = create_app(enviroment)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
