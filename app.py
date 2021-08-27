@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)
 
 
-
+# ..................... Conexión a la base de datos ....................................... 
 
 def db_connection():
     conn = None
@@ -26,12 +26,13 @@ def db_connection():
 def home():
     return "flask heroku app"
 
+# ..................... Obtener todos los productos ....................................... 
+
 @app.route("/products", methods=["GET", "POST"])
 def products():
     conn = db_connection()
     cursor = conn.cursor()
-    productList = []
-    print("function products")
+ 
     cursor.execute("SELECT * FROM product")
     products = [
         dict(
@@ -43,13 +44,11 @@ def products():
             category =row[5])
             for row in cursor.fetchall()
             ]
-    
-    for product in products:
-        productList.append(product)
 
-    return jsonify({"Products": productList})
+    return jsonify({"Products": products})
 
 
+# ..................... Obtener todas las categorias ....................................... 
 
 @app.route("/categories", methods=["GET", "POST"])
 def categories():
